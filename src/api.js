@@ -17,7 +17,15 @@ deleteCat(id) {
         method:'DElETE'
     })
 }
-
+addNewCat(data) {
+    return fetch(`${this.url}/add`, {
+        method:'POST',
+        headers:{
+            'Content-type': 'application/json'
+        },
+        body:JSON.stringify(data)
+    })
+}
 }
 const dbName = "natali";
 const api = new CatsApi('natali')

@@ -63,10 +63,11 @@ for (let i = 0; i < cards.length; i++) {
     })
  }
 const HIDDEN_CLASS = 'hidden'
+ const cardsContainer = document.querySelector("#card-template");
 const $addBtn = document.querySelector('[data-add_button]')
 const $modalAdd = document.querySelector('[data-modal]')
 const $dataExit = document.querySelector('[data-exit_button]')
-console.log($dataExit);
+
 
 $addBtn.addEventListener('click',(event) =>{
     $modalAdd.classList.remove (HIDDEN_CLASS)
@@ -78,54 +79,36 @@ $dataExit.addEventListener('click',(event) =>{
     document.body.style.overflow = '';
     })
 
-// document.forms.add_cats_form.addEventListener('submit',(event) => {
-//     event.preventDefault();
-//     const data = Object.fromEntries(new FormData(event.target).entries());
+document.forms.add_cats_form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    console.log(event.target);
+    const data = Object.fromEntries(new FormData(event.target).entries());
+
+    data.id =Number(data.id)
+    data.age =Number(data.age)
+    data.rate =Number(data.rate)
+    data.favorite = data.favorite =='on'
+
+    console.log(data);
+
+const res = await api.addNewCat(data)
+const response = await res.json()
+console.log(response);
+
+event.target.reset()//сброс формы
+
+$modalAdd.classList.add (HIDDEN_CLASS)
+})
 
 
 
-//     console.log(data);не находит form
-// })
+
+
+
+
+
+
+
 
     
-   const formsCatAdd = document.querySelector('#form-add')
-   console.log(formsCatAdd);
-
-    function serializeForm(elements) {
-        const formData = {};
-
-        elements.forEach(input =>{
-        if(input.type === 'submit' || input.type ==='button') return
-        if(input.type ==='checkbox') {
-            formData[input.name] = input.checked;
-            console.log(input.checked);
-        }
-        if(input.type !=='checkbox') {
-            formData[input.name] = input.value;
-            console.log(input.value);
-        }
-        })
-      return formData;
-    }
-
-    serializeForm([...formsCatAdd.elements])
-
-    function handleFormAddCat(e) {
-        e.preventDefault();
-        const elementsFormCat = [...formsCatAdd.elements];
-        const formData = serializeForm(elementsFormCat);
-    }
-//    cats.forEach(catData => {
-//     const newElement = new Card(catData, '#card-template', handleClickCatImage);
-//     cardsContainer.append(newElement.getElement());
-// });
-// formsCatAdd.close();
-
-
-// function handleClickCatImage(dataSrc) {
-//     $modalAdd.open(dataSrc)
-// }
-
-
-
-
